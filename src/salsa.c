@@ -1,5 +1,8 @@
 #include <stdio.h>
-#include <../lib/parson/parson.h>
+#include "../lib/parson/parson.h"
+
+#define AT 1
+#define MT 0
 
 typedef enum {
     BOOTING       = 0,
@@ -10,7 +13,7 @@ typedef enum {
 
 typedef struct {
     SALSA_STATUS_FLAG status;
-    char mode;
+    uint8_t mode;
 } salsa_status_t;
 
 salsa_status_t status_t;

@@ -1,6 +1,7 @@
 #include <stdint.h>
-#include <salsa.h>
 #include <wiringPiSPI.h>
+#include "sensor.h"
+#include "salsa.h"
 
 int read_flag = 0b10000000;
 int write_flag = 0b00000000;
@@ -10,7 +11,7 @@ void sensor_init(int device){
     wiringPiSPISetup(device,500000);
 }
 
-uint8_t read(uint8_t address){
+uint8_t sensor_read(uint8_t address){
 
     data[0] = address | read_flag;
     data[1] = 0x00; // dummy tx
@@ -20,7 +21,7 @@ uint8_t read(uint8_t address){
     return data[1];
 }
 
-void write(uint8_t address, uint8_t byte){
+void sensor_write(uint8_t address, uint8_t byte){
 
     data[0] = address | write_flag;
     data[2] = byte;
