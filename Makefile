@@ -1,8 +1,11 @@
 PROGRAM = salsa
+
 OBJS = main.o
 
 CC = gcc
 CFLAGS = -Wall -O2
+
+BINPATH = /usr/local/bin
 
 .SUFFIXES: .c .o
 
@@ -20,4 +23,9 @@ clean:
 	$(RM) $(PROGRAM) $(OBJS)
 
 .PHONY: depend
+depend:
 	makedepend -- $(CFLAGS) -- $(OBJS)
+
+.PHONY: install
+install:
+	mv $(PROGRAM) $(BINPATH)
