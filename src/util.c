@@ -1,4 +1,5 @@
 #include <wiringPi.h>
+#include "salsa.h"
 
 void write_led(salsa_status_t *status, int bit){
     digitalWrite(status->led_pin, bit);

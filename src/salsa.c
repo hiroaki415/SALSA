@@ -1,28 +1,31 @@
 #include <stdio.h>
+#include <stdint.h>
 #include "../lib/parson/parson.h"
+#include "salsa.h"
+#include "sensor.h"
+#include "collector.h"
+#include "util.h"
+#include "debug.h"
 
 #define AT 1
 #define MT 0
 
-typedef enum {
-    BOOTING       = 0,
-    READY         = 1,
-    LOGGING       = 2,
-    FILEOPERATION = 3
-} SALSA_STATUS_FLAG;
-
-typedef struct {
-    SALSA_STATUS_FLAG status;
-    uint8_t mode;
-} salsa_status_t;
-
 salsa_status_t status_t;
 
-void init(void){
-    printf("hello");
+void salsa_init(SALSA_BEHAVIOR sb){
+    switch(sb){
+        case LOGGER:
+            printf("start");
+            break;
+        case DEBUG:
+            debug_init(&status_t);
+            while(status_t.status!=4){
+                debug_wait();
+            }
+    }
 }
 
-int load(salsa_status_t *set, char *filepath){
+int load(salsa_status_t *sta, char *filepath){
 
     JSON_Value *jval;
     JSON_Object *jobj;

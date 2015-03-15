@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include "debug.h"
 #include "salsa.h"
 #include "sensor.h"
 #include "collector.h"
