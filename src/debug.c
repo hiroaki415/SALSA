@@ -15,7 +15,7 @@ uint8_t num1;
 salsa_status_t *status;
 
 void debug_init(salsa_status_t *sta){
-    *status = *sta;
+    status = sta;
 }
 
 void debug_wait(void){
