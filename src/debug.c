@@ -1,5 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 #include "debug.h"
 #include "salsa.h"
 #include "sensor.h"
@@ -13,7 +15,7 @@ uint8_t num1;
 salsa_status_t *status;
 
 void debug_init(salsa_status_t *sta){
-    status = sta;
+    *status = *sta;
 }
 
 void debug_wait(void){
@@ -39,6 +41,9 @@ void parse(void){
         toggle_led(status);
     }else if(strcmp(buff,"help")==0){
         debug_help();
+    }else if(strcmp(buff,"exit")==0){
+        printf("exit SALSA debug mode...");
+        exit(0);
     }else{
         printf("incorrect command!\n");
         debug_help();
@@ -51,10 +56,11 @@ void debug_help(void){
             "enter command to debug\n"
             "\n"
             "  read [ADDRESS(HEX)]                 read from sensor at [ADDRESS(HEX)]\n"
-            "  write [ADDRESS(HEX)] [DATA(HEX)]    write [DATA(HEX)] int sensor at [ADDRESS(HEX)]\n"
+            "  write [ADDRESS(HEX)] [DATA(HEX)]    write [DATA(HEX)] into sensor at [ADDRESS(HEX)]\n"
             "  collect                             collect all data\n"
             "  led [BIT]                           led on or off ( [BIT] 0:off  1:on)\n"
             "  toggle                              toggle led flash\n"
             "  help                                help message\n"
+            "  exit                                exit SALSA debug mode\n"
             );
 }
