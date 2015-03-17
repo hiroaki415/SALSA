@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include "src/salsa.h"
 
 void help(void);
 
@@ -35,11 +36,9 @@ int main(int argc, char *argv[]){
     }
 
     if(flag=='s'){
-        printf("start!\n");
-        printf("load file is %s\n",path);
+        salsa_start(LOGGER, path);
     }else if(flag=='d'){
-        printf("debug!\n");
-        printf("load file is %s\n",path);
+        salsa_start(DEBUG, path);
     }else{
         help();
     }
