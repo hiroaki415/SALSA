@@ -24,7 +24,7 @@ uint8_t sensor_read(uint8_t address){
 void sensor_write(uint8_t address, uint8_t byte){
 
     data[0] = address | write_flag;
-    data[2] = byte;
+    data[1] = byte;
 
     wiringPiSPIDataRW(0,data,2);
 }

@@ -23,7 +23,7 @@ typedef struct {
 
     //static
     uint8_t mode;
-    uint8_t led_flag
+    uint8_t led_flag;
 
     uint8_t x_lsb;
     uint8_t x_msb;
@@ -34,5 +34,6 @@ typedef struct {
 
 } salsa_status_t;
 
-void salsa_init(SALSA_BEHAVIOR sb);
-int load(salsa_status_t *sta, char *filepath);
+void salsa_start(SALSA_BEHAVIOR sb, char *path);
+void salsa_init(void);
+void load(salsa_status_t *sta, char *filepath);
