@@ -17,19 +17,27 @@ typedef enum {
 } SALSA_STATUS_FLAG;
 
 typedef struct {
-    //dynamic
+
+    /*dynamic*/
     SALSA_STATUS_FLAG status;
 
     uint16_t x_value;
     uint16_t y_value;
     uint16_t z_value;
 
-    uint8_t led_pin;
-
-    //static
-    uint8_t mode;
     uint8_t led_flag;
 
+
+
+    /* static */
+    // logger
+    uint8_t logger_mode;
+    uint8_t sampling_rate;
+    uint16_t trigger_value;
+    uint8_t former_length;
+    uint8_t latter_length;
+
+    // sensor
     uint8_t x_lsb;
     uint8_t x_msb;
     uint8_t y_lsb;
@@ -37,10 +45,17 @@ typedef struct {
     uint8_t z_lsb;
     uint8_t z_msb;
 
+    uint8_t amount;
+    uint8_t address[10];
+    uint8_t data[10];
+
+    // other
+    uint8_t led_pin;
+
 } salsa_status_t;
 
 void salsa_start(SALSA_BEHAVIOR sb, char *path);
-void salsa_init(void);
+void salsa_init(salsa_status_t *sta);
 void load(salsa_status_t *sta, char *filepath);
 
 #endif
