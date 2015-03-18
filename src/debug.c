@@ -9,8 +9,8 @@
 #include "util.h"
 
 char *buff;
-uint8_t num0;
-uint8_t num1;
+unsigned int num0;
+unsigned int  num1;
 
 salsa_status_t *status;
 
@@ -21,7 +21,7 @@ void debug_init(salsa_status_t *sta){
 void debug_wait(void){
 
     printf("debug@SALSA >>> ");
-    scanf("%s%x%x", &buff, &num0, &num1);
+    scanf("%s%x%x", buff, &num0, &num1);
     printf("\n");
 
     parse();

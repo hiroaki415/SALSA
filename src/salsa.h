@@ -1,3 +1,8 @@
+#include <stdint.h>
+
+#ifndef _SALSA
+#define _SALSA
+
 typedef enum {
     LOGGER = 0,
     DEBUG = 1
@@ -37,3 +42,5 @@ typedef struct {
 void salsa_start(SALSA_BEHAVIOR sb, char *path);
 void salsa_init(void);
 void load(salsa_status_t *sta, char *filepath);
+
+#endif

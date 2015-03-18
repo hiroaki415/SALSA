@@ -4,8 +4,7 @@ SRC = main.c $(wildcard src/*.c) lib/parson/parson.c
 OBJS = $(patsubst %.c, %.o, $(SRC) )
 
 CC = gcc
-CFLAGS = -Wall -O2
-LINK = -lwiringPi
+CFLAGS = -Wall -O2 -lwiringPi
 
 BINPATH = /usr/local/bin
 
@@ -16,10 +15,10 @@ all: $(PROGRAM)
 
 $(PROGRAM): $(OBJS)
 	$(depend)
-	$(CC) $(LINK) -o $(PROGRAM) $^
+	$(CC) -o $(PROGRAM) $^
 
 .c.o:
-	$(CC) $(CFLAGS) $(LINK) -c $< -o $@
+	$(CC) $(CFLAGS) -c $<
 
 .PHONY: clean
 clean:
