@@ -1,39 +1,38 @@
 {
-
     "logger" : {
                  "mode" : true ,
                  "rate" : "100" ,
 
                  "auto" : {
-                            "trigger" 167 ,
-                            "former" : 30 ,
-                            "latter" : 90
+                            "trigger" : "167" ,
+                            "former" : "30" ,
+                            "latter" : "90"
                           } ,
 
                  "manual" : {
                               "start" : {
                                           "port" : "A" ,
-                                          "pin" : 0
+                                          "pin" : "0"
                                         } ,
                               "end" : {
                                         "port" : "B" ,
-                                        "pin" : 1
+                                        "pin" : "1"
                                       }
                             }
                 } ,
 
     "acc" : {
               "x" : {
-                      "lsb" : 0 ,
-                      "msb" : 1
+                      "lsb" : "0" ,
+                      "msb" : "1"
                     } ,
               "y" : {
-                      "lsb" : 2 ,
-                      "msb" : 3
+                      "lsb" : "2" ,
+                      "msb" : "3"
                     } ,
               "z" : {
-                      "lsb" : 4 ,
-                      "msb" : 5
+                      "lsb" : "4" ,
+                      "msb" : "5"
                     } ,
 
               "shiftbit" : 2
@@ -41,19 +40,19 @@
 
     "register" : [
                    {
-                     "address" : 255 ,
-                     "data" : 0
+                     "address" : "255" ,
+                     "data" : "0"
                    } ,
                    {
-                     "address" : 254 ,
-                     "data" : 0
+                     "address" : "254" ,
+                     "data" : "0"
                    } ,
                    {
-                     "address" : 253 ,
-                     "data" : 0
+                     "address" : "253" ,
+                     "data" : "0"
                    }
                  ],
 
-    "led_pin" : 24
+    "led_pin" : "24"
 
 }

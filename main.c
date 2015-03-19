@@ -8,56 +8,51 @@
 void help(void);
 
 int main(int argc, char *argv[]){
-
+    test_start();
     int opt;
-    char flag, *path;
+    char flag;
+    char *path;
 
     flag = 'o';
     path = "settings.json";
-
-    FILE *file = fopen(path, "r");
-    char json[8192] = "";
-    char buff[100];
-    while(fgets(buff,sizeof(buff),file)!=NULL){
-        strcat(json, buff);
-    }
-
-    printf("%s",json);
-
-    JSON_Value *jval = json_parse_string_with_comments(json);
-    printf("jval\n");
-    JSON_Object *jobj = json_value_get_object(jval);
-    printf("jobj\n");
-    printf("%s\n",json_object_get_name(jobj,10));
 
     while((opt=getopt(argc,argv,"sdhl:"))!=-1){
         switch(opt){
             case 's':
                 if(flag != 'd'){
+                    printf("char S!!!\n");
                     flag = 's';
+                    printf("chaaaaaaaaaaaaaaaaaaaaaaaar!!!\n");
                 }
                 break;
             case 'd':
+                printf("char D!!!\n");
                 flag = 'd';
+                printf("chaaaaaaaaaaaaaaaaaaaaar!!!\n");
                 break;
             case 'h':
                 help();
-                return 0;
+                exit(0);
             case 'l':
                 path = optarg;
                 break;
             default :
                 help();
-                return 0;
+                exit(0);
         }
     }
 
-    if(flag=='s'){
-        salsa_start(LOGGER, path);
-    }else if(flag=='d'){
-        salsa_start(DEBUG, path);
-    }else{
-        help();
+    switch(flag){
+        case 's':
+            salsa_start(LOGGER, path);
+            break;
+        case 'd':
+            printf("debug!\n");
+            salsa_start(DEBUG, path);
+            break;
+        default :
+            help();
+            exit(0);
     }
 
     return 0;

@@ -5,7 +5,7 @@ OBJS = $(patsubst %.c, %.o, $(SRC) )
 
 CC = gcc
 CFLAGS = -Wall -O2
-LINK = -lwiringPi
+LINK = -lwiringPi -lyajl -lm
 
 BINPATH = /usr/local/bin
 

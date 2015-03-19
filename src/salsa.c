@@ -12,10 +12,17 @@
 #include "util.h"
 #include "debug.h"
 
-#define AT 1
-#define MT 0
+#define AT 0
+#define MT 1
+
+void test_start(void){
+    printf("TEST!!!\n");
+    salsa_start(DEBUG,"settings.json");
+}
 
 void salsa_start(SALSA_BEHAVIOR sb, char *path){
+
+    printf("SALSA is initializing");
 
     salsa_status_t *status_t;
 
@@ -28,7 +35,7 @@ void salsa_start(SALSA_BEHAVIOR sb, char *path){
             break;
         case DEBUG:
             debug_init(status_t);
-            while(0){
+            while(1){
                 debug_wait();
             }
     }
@@ -54,28 +61,22 @@ void load(salsa_status_t *set_t, char *filepath){
     JSON_Object *jobj;
     JSON_Array *jarr;
 
-    uint8_t tmp;
+    const char *tmps;
+    unsigned int tmpi;
 
-    char *json = "";
-    char buff[100];
-    FILE *file = fopen(filepath,"r");
-    printf("open\n");
-    while(fgets(buff,sizeof(buff),file)!=NULL){
-        printf("%s\n",buff);
-        json = strcat(json,buff);
-    }
-    printf("%s\n",json);
+    printf("now loading %s ...", filepath);
 
-    if ((jval = json_parse_file(filepath)) == NULL){
+    if ((jval = json_parse_file_with_comments(filepath)) == NULL){
         printf("can not find %s \n",filepath);
         exit(1);
     }
+    jobj = json_value_get_object(jval);
 
     //loading logger mode
-    tmp = (uint8_t)json_object_dotget_boolean(jobj, "logger.mode");
-    if(tmp != -1){
-       set_t->logger_mode = tmp;
-       if(tmp){
+    tmpi = json_object_dotget_boolean(jobj, "logger.mode");
+    if(tmpi != -1){
+       set_t->logger_mode = tmpi;
+       if(tmpi){
 
            printf("loaded logger mode is Manual-Trigger\n");
 
@@ -94,30 +95,30 @@ void load(salsa_status_t *set_t, char *filepath){
            printf("loaded logger mode is Auto-Trigger\n");
 
            //loading trigger value
-           tmp = (uint8_t)json_object_dotget_number(jobj, "logger.auto.trigger");
-           if(tmp != 0){
-               set_t->trigger_value = tmp;
-               printf("loaded trigger value is %d\n",tmp);
+           tmps = json_object_dotget_string(jobj, "logger.auto.trigger");
+           if(tmps != 0){
+               set_t->trigger_value = atoi(tmps);
+               printf("loaded trigger value is %s\n",tmps);
            }else{
                set_t->trigger_value = 167;
                printf("failed loading trigger value\n");
            }
 
            //loading former length
-           tmp = (uint8_t)json_object_dotget_number(jobj, "logger.auto.former");
-           if(tmp != 0){
-               set_t->former_length = tmp;
-               printf("loaded former length is %d\n",tmp);
+           tmps = json_object_dotget_string(jobj, "logger.auto.former");
+           if(tmps != 0){
+               set_t->former_length = atoi(tmps);
+               printf("loaded former length is %s\n",tmps);
            }else{
                set_t->former_length = 30;
                printf("failed loading former length\n");
            }
 
            //loading former length
-           tmp = (uint8_t)json_object_dotget_number(jobj, "logger.auto.latter");
-           if(tmp != 0){
-               set_t->latter_length = tmp;
-               printf("loaded latter length is %d\n",tmp);
+           tmps = json_object_dotget_string(jobj, "logger.auto.latter");
+           if(tmps != 0){
+               set_t->latter_length = atoi(tmps);
+               printf("loaded latter length is %s\n",tmps);
            }else{
                set_t->former_length = 90;
                printf("failed loading latter length\n");
@@ -129,23 +130,24 @@ void load(salsa_status_t *set_t, char *filepath){
     }
 
     //loading sampling rate
-    tmp = (uint8_t)json_object_dotget_number(jobj, "logger.rate");
-    if(tmp != 0){
-        set_t->sampling_rate = tmp;
-        printf("loaded sampling rate is %d\n",tmp);
+    tmps = json_object_dotget_string(jobj, "logger.rate");
+    if(tmps != 0){
+        set_t->sampling_rate = atoi(tmps);
+        printf("loaded sampling rate is %s\n",tmps);
     }else{
         printf("failed loading sampling rate\n");
     }
 
-    set_t->led_pin = json_object_get_number(jobj,"led_pin");
+    set_t->led_pin = atoi(json_object_get_string(jobj,"led_pin"));
 
     //loading acc sensor setting
-    set_t->x_lsb = (uint8_t)json_object_dotget_number(jobj, "acc.x.lsb");
-    set_t->x_msb = (uint8_t)json_object_dotget_number(jobj, "acc.x.msb");
-    set_t->y_lsb = (uint8_t)json_object_dotget_number(jobj, "acc.y.lsb");
-    set_t->y_msb = (uint8_t)json_object_dotget_number(jobj, "acc.y.msb");
-    set_t->z_lsb = (uint8_t)json_object_dotget_number(jobj, "acc.z.lsb");
-    set_t->z_msb = (uint8_t)json_object_dotget_number(jobj, "acc.z.msb");
+    char *e;
+    set_t->x_lsb = strtol(json_object_dotget_string(jobj, "acc.x.lsb"), &e, 16);
+    set_t->x_msb = strtol(json_object_dotget_string(jobj, "acc.x.msb"), &e, 16);
+    set_t->y_lsb = strtol(json_object_dotget_string(jobj, "acc.y.lsb"), &e, 16);
+    set_t->y_msb = strtol(json_object_dotget_string(jobj, "acc.y.msb"), &e, 16);
+    set_t->z_lsb = strtol(json_object_dotget_string(jobj, "acc.z.lsb"), &e, 16);
+    set_t->z_msb = strtol(json_object_dotget_string(jobj, "acc.z.msb"), &e, 16);
 
     //loading writing data to acc register
     jarr = json_object_get_array(jobj, "register");
@@ -153,8 +155,8 @@ void load(salsa_status_t *set_t, char *filepath){
     int i = 0;
     for(i = 0; i < json_array_get_count(jarr); i++){
         jobj = json_array_get_object(jarr, i);
-        set_t->address[i] = (uint8_t)json_object_get_number(jobj, "address");
-        set_t->data[i] = (uint8_t)json_object_get_number(jobj, "data");
+        set_t->address[i] = strtol(json_object_dotget_string(jobj, "address"), &e, 16);
+        set_t->data[i] = strtol(json_object_dotget_string(jobj, "data"), &e, 16);
     }
 
     printf("finished load setting\n");
