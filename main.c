@@ -8,7 +8,7 @@
 void help(void);
 
 int main(int argc, char *argv[]){
-    test_start();
+
     int opt;
     char flag;
     char *path;
@@ -20,15 +20,11 @@ int main(int argc, char *argv[]){
         switch(opt){
             case 's':
                 if(flag != 'd'){
-                    printf("char S!!!\n");
                     flag = 's';
-                    printf("chaaaaaaaaaaaaaaaaaaaaaaaar!!!\n");
                 }
                 break;
             case 'd':
-                printf("char D!!!\n");
                 flag = 'd';
-                printf("chaaaaaaaaaaaaaaaaaaaaar!!!\n");
                 break;
             case 'h':
                 help();
@@ -47,7 +43,6 @@ int main(int argc, char *argv[]){
             salsa_start(LOGGER, path);
             break;
         case 'd':
-            printf("debug!\n");
             salsa_start(DEBUG, path);
             break;
         default :

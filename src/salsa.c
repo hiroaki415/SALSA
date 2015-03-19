@@ -15,16 +15,11 @@
 #define AT 0
 #define MT 1
 
-void test_start(void){
-    printf("TEST!!!\n");
-    salsa_start(DEBUG,"settings.json");
-}
-
 void salsa_start(SALSA_BEHAVIOR sb, char *path){
 
     printf("SALSA is initializing");
 
-    salsa_status_t *status_t;
+    salsa_status_t *status_t = malloc(sizeof(salsa_status_t));;
 
     load(status_t, path);
     salsa_init(status_t);
@@ -62,9 +57,9 @@ void load(salsa_status_t *set_t, char *filepath){
     JSON_Array *jarr;
 
     const char *tmps;
-    unsigned int tmpi;
+    uint8_t tmpi;
 
-    printf("now loading %s ...", filepath);
+    printf("now loading %s ...\n", filepath);
 
     if ((jval = json_parse_file_with_comments(filepath)) == NULL){
         printf("can not find %s \n",filepath);
@@ -75,7 +70,7 @@ void load(salsa_status_t *set_t, char *filepath){
     //loading logger mode
     tmpi = json_object_dotget_boolean(jobj, "logger.mode");
     if(tmpi != -1){
-       set_t->logger_mode = tmpi;
+//       set_t->logger_mode = tmpi;
        if(tmpi){
 
            printf("loaded logger mode is Manual-Trigger\n");
@@ -131,7 +126,7 @@ void load(salsa_status_t *set_t, char *filepath){
 
     //loading sampling rate
     tmps = json_object_dotget_string(jobj, "logger.rate");
-    if(tmps != 0){
+    if(tmps != NULL){
         set_t->sampling_rate = atoi(tmps);
         printf("loaded sampling rate is %s\n",tmps);
     }else{

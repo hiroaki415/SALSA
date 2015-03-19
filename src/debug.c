@@ -8,10 +8,6 @@
 #include "collector.h"
 #include "util.h"
 
-char *buff;
-unsigned int num0;
-unsigned int  num1;
-
 salsa_status_t *status;
 
 void debug_init(salsa_status_t *sta){
@@ -20,33 +16,68 @@ void debug_init(salsa_status_t *sta){
 
 void debug_wait(void){
 
+    char *buff;
+
     printf("debug@SALSA >>> ");
-    scanf("%s%x%x", buff, &num0, &num1);
+    scanf("%s", buff);
     printf("\n");
 
-    parse();
+    parse(buff);
 
 }
 
-void parse(void){
+void parse(char *buff){
+
+    unsigned int num0;
+    unsigned int num1;
+
+
     if(strcmp(buff,"read")==0){
-        printf("%x\n",sensor_read(num0));
+
+        printf("enter address to read : ");
+        scanf("%x",&num0);
+        printf("read value is %x at %x \n", sensor_read(num0), num0);
+
     }else if(strcmp(buff,"write")==0){
+
+        printf("enter address to write : ");
+        scanf("%x",&num0);
+        printf("enter data to write : ");
+        scanf("%x",&num1);
+
         sensor_write(num0, num1);
+        printf("write %x at %x \n", num1, num0);
+
     }else if(strcmp(buff,"collect")==0){
+
         collect(status);
+
     }else if(strcmp(buff,"led")==0){
+
+        printf("enter bit to write into led pin : ");
+        scanf("%d",&num0);
         write_led(status, num0);
+        printf("write bit %d, check your led out\n", num0);
+
     }else if(strcmp(buff,"toggle")==0){
+
         toggle_led(status);
+        printf("bit toggled, check your led out\n");
+
     }else if(strcmp(buff,"help")==0){
+
         debug_help();
+
     }else if(strcmp(buff,"exit")==0){
-        printf("exit SALSA debug mode...");
+
+        printf("exit SALSA debug mode...\n");
         exit(0);
+
     }else{
+
         printf("incorrect command!\n");
         debug_help();
+
     }
 }
 
@@ -55,12 +86,12 @@ void debug_help(void){
             "===SALSA debug mode===\n"
             "enter command to debug\n"
             "\n"
-            "  read [ADDRESS(HEX)]                 read from sensor at [ADDRESS(HEX)]\n"
-            "  write [ADDRESS(HEX)] [DATA(HEX)]    write [DATA(HEX)] into sensor at [ADDRESS(HEX)]\n"
-            "  collect                             collect all data\n"
-            "  led [BIT]                           led on or off ( [BIT] 0:off  1:on)\n"
-            "  toggle                              toggle led flash\n"
-            "  help                                help message\n"
-            "  exit                                exit SALSA debug mode\n"
+            "  read         read from sensor on SPI bus\n"
+            "  write        write data into sensor on SPI bus\n"
+            "  collect      collect all data\n"
+            "  led          led on or off\n"
+            "  toggle       toggle led flash\n"
+            "  help         help message\n"
+            "  exit         exit SALSA debug mode\n"
             );
 }

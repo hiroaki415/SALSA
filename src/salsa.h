@@ -54,7 +54,6 @@ typedef struct {
 
 } salsa_status_t;
 
-void test_start(void);
 void salsa_start(SALSA_BEHAVIOR sb, char *path);
 void salsa_init(salsa_status_t *sta);
 void load(salsa_status_t *sta, char *filepath);
