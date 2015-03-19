@@ -17,7 +17,7 @@
 
 void salsa_start(SALSA_BEHAVIOR sb, char *path){
 
-    printf("SALSA is initializing");
+    printf("SALSA is initializing\n");
 
     salsa_status_t *status_t = malloc(sizeof(salsa_status_t));;
 
@@ -43,6 +43,11 @@ void salsa_init(salsa_status_t *sta){
     gpio_irq_init(17);
     clock_init(18,sta->sampling_rate);
     pinMode(sta->led_pin, OUTPUT);
+ 
+    int i;
+    for(i = 0; i < sta->amount; i++){
+        sensor_write(sta->address[i], sta->data[i]);
+    }
 
     sta->x_value = 0;
     sta->y_value = 0;
@@ -62,7 +67,8 @@ void load(salsa_status_t *set_t, char *filepath){
     printf("now loading %s ...\n", filepath);
 
     if ((jval = json_parse_file_with_comments(filepath)) == NULL){
-        printf("can not find %s \n",filepath);
+        printf("fail to load %s \n",filepath);
+        printf("please check your file directory, json syntax or else\n");
         exit(1);
     }
     jobj = json_value_get_object(jval);

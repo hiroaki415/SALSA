@@ -23,33 +23,27 @@
 
     "acc" : {
               "x" : {
-                      "lsb" : "0" ,
-                      "msb" : "1"
+                      "lsb" : "28" ,
+                      "msb" : "29"
                     } ,
               "y" : {
-                      "lsb" : "2" ,
-                      "msb" : "3"
+                      "lsb" : "2A" ,
+                      "msb" : "2B"
                     } ,
               "z" : {
-                      "lsb" : "4" ,
-                      "msb" : "5"
-                    } ,
-
-              "shiftbit" : 2
+                      "lsb" : "2C" ,
+                      "msb" : "2D"
+                    }
             } ,
 
     "register" : [
                    {
-                     "address" : "255" ,
-                     "data" : "0"
+                     "address" : "20" ,
+                     "data" : "7F"
                    } ,
                    {
-                     "address" : "254" ,
-                     "data" : "0"
-                   } ,
-                   {
-                     "address" : "253" ,
-                     "data" : "0"
+                     "address" : "20" ,
+                     "data" : "7F"
                    }
                  ],
 
