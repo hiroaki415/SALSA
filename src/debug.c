@@ -20,7 +20,6 @@ void debug_wait(void){
 
     printf("debug@SALSA >>> ");
     scanf("%s", buff);
-    printf("\n");
 
     parse(buff);
 
@@ -51,6 +50,7 @@ void parse(char *buff){
     }else if(strcmp(buff,"collect")==0){
 
         collect(status);
+        printf("x:%6d y:%6d z:%6d\n", status->x_value , status->y_value ,status->z_value);
 
     }else if(strcmp(buff,"led")==0){
 
