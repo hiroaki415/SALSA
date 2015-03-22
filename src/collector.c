@@ -2,9 +2,9 @@
 #include "salsa.h"
 #include "sensor.h"
 
-uint16_t tmp;
-
 void collect(salsa_status_t *status){
+
+    uint16_t tmp;
 
     tmp = sensor_read(status->x_msb);
     status->x_value = ( tmp << 8 ) | sensor_read(status->x_lsb);

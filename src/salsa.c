@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <signal.h>
 #include <stdint.h>
 #include <string.h>
 #include <wiringPi.h>
@@ -36,6 +37,7 @@ void salsa_start(SALSA_BEHAVIOR sb, char *path){
                 logfile = malloc(sizeof(Log_File));
                 logfile_init(logfile, "tmp.txt", "%d %d %d\n");
                 handler_init(status_t, logfile);
+                gpio_irq_init(17);
 
                 printf("all setting is done\n");
                 printf("logger start!!!\n");
@@ -63,7 +65,6 @@ void salsa_init(salsa_status_t *sta){
     sta->flag = BOOTING;
     wiringPiSetupGpio();
     sensor_init(0);
-    gpio_irq_init(17);
     clock_init(18,sta->sampling_rate);
     pinMode(sta->led_pin, OUTPUT);
     write_led(sta, 1);
@@ -73,11 +74,21 @@ void salsa_init(salsa_status_t *sta){
         sensor_write(sta->address[i], sta->data[i]);
     }
 
+    signal(SIGINT, &salsa_exit);
+    signal(SIGKILL, &salsa_exit);
+
     sta->x_value = 0;
     sta->y_value = 0;
     sta->z_value = 0;
 
     sta->flag = READY;
+}
+
+void salsa_exit(int sig){
+    printf("exiting salsa system...\n");
+    gpio_irq_reset(17);
+    pinMode(18,INPUT);
+    exit(0);
 }
 
 void load(salsa_status_t *set_t, char *filepath){
@@ -178,18 +189,23 @@ void load(salsa_status_t *set_t, char *filepath){
     tmps = json_object_dotget_string(jobj,"acc.x.lsb");
     printf("acc x lsb is  %s\n", tmps);
     set_t->x_lsb = strtol(tmps, &e, 16);
+
     tmps = json_object_dotget_string(jobj,"acc.x.msb");
     printf("acc x msb is  %s\n", tmps);
     set_t->x_msb = strtol(tmps, &e, 16);
+
     tmps = json_object_dotget_string(jobj,"acc.y.lsb");
     printf("acc y lsb is  %s\n", tmps);
     set_t->y_lsb = strtol(tmps, &e, 16);
+
     tmps = json_object_dotget_string(jobj,"acc.y.msb");
     printf("acc y msb is  %s\n", tmps);
     set_t->y_msb = strtol(tmps, &e, 16);
+
     tmps = json_object_dotget_string(jobj,"acc.z.lsb");
     printf("acc z lsb is  %s\n", tmps);
     set_t->z_lsb = strtol(tmps, &e, 16);
+
     tmps = json_object_dotget_string(jobj,"acc.z.msb");
     printf("acc z msb is  %s\n", tmps);
     set_t->z_msb = strtol(tmps, &e, 16);

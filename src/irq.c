@@ -4,10 +4,11 @@
 #include "salsa.h"
 #include "handler.h"
 
-int gpio_irq_pin;
-
 void gpio_irq_init(int pin){
-    gpio_irq_pin = pin;
-    pinMode(gpio_irq_pin, INPUT);
-    wiringPiISR(gpio_irq_pin, INT_EDGE_RISING, &gpio_irq_handler);
+    pinMode(pin, INPUT);
+    wiringPiISR(pin, INT_EDGE_RISING, &gpio_irq_handler);
+}
+
+void gpio_irq_reset(int pin){
+    wiringPiISR(pin, INT_EDGE_RISING, NULL);
 }

@@ -71,7 +71,7 @@ void parse(char *buff){
     }else if(strcmp(buff,"exit")==0){
 
         printf("exit SALSA debug mode...\n");
-        exit(0);
+        salsa_exit(0);
 
     }else{
 

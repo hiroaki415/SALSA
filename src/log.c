@@ -4,11 +4,6 @@
 #include "log.h"
 
 void logfile_init(Log_File *lf, char *name, char *format){
-
-    if(lf->file!=NULL){
-        log_close(lf);
-    }
-
     lf->name = name;
     lf->file = fopen(lf->name, "w+");
     lf->format = format;
