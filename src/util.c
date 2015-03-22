@@ -13,3 +13,20 @@ void toggle_led(salsa_status_t *status){
         write_led(status,1);
     }
 }
+
+void status_led(salsa_status_t *status){
+    switch(status->flag){
+        case READY:
+            toggle_led(status);
+            delay(500);
+            break;
+        case LOGGING:
+            toggle_led(status);
+            delay(100);
+            break;
+        default:
+            write_led(status, 1);
+            break;
+    }
+
+}

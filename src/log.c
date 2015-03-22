@@ -24,7 +24,6 @@ void log_printf(Log_File *lf, ...){
 
 void log_vprintf(Log_File *lf, va_list list){
     vfprintf(lf->file, lf->format, list);
-    fputc('\n', lf->file);
     lf->line++;
 }
 

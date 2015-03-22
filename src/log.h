@@ -1,11 +1,15 @@
 #ifndef _LOG
 #define _LOG
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
+
 typedef struct {
     FILE *file;
     char *name;
     char *format;
-    int line;
+    long line;
 } Log_File;
 
 void logfile_init(Log_File *lf, char *name, char *format);

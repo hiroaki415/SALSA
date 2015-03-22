@@ -13,13 +13,12 @@ typedef enum {
     READY         = 1,
     LOGGING       = 2,
     FILEOPERATION = 3,
-    EXIT          = 4
 } SALSA_STATUS_FLAG;
 
 typedef struct {
 
     /*dynamic*/
-    SALSA_STATUS_FLAG status;
+    SALSA_STATUS_FLAG flag;
 
     uint16_t x_value;
     uint16_t y_value;
