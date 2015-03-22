@@ -4,7 +4,7 @@ SRC = main.c $(wildcard src/*.c) lib/parson/parson.c
 OBJS = $(patsubst %.c, %.o, $(SRC) )
 
 CC = gcc
-CFLAGS = -Wall -O0 -g
+CFLAGS = -Wall -O0
 LINK = -lwiringPi
 
 BINPATH = /usr/local/bin
